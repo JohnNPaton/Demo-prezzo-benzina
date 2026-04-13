@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Caro Benzina — OpenEconomics</title>
+<link rel="icon" type="image/png" href="" onerror="this.remove()">
+<link href="https://fonts.googleapis.com/css2?family=Hedvig+Letters+Serif:opsz@12..24&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+<script>
+(function(){
+  var icons={
+    "flame":"<path d=\"M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z\"/>",
+    "trending-up":"<polyline points=\"23 6 13.5 15.5 8.5 10.5 1 18\"/><polyline points=\"17 6 23 6 23 12\"/>",
+    "trending-down":"<polyline points=\"23 18 13.5 8.5 8.5 13.5 1 6\"/><polyline points=\"17 18 23 18 23 12\"/>",
+    "globe":"<circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"2\" y1=\"12\" x2=\"22\" y2=\"12\"/><path d=\"M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z\"/>",
+    "shield":"<path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/>",
+    "zap":"<polygon points=\"13 2 3 14 12 14 11 22 21 10 12 10 13 2\"/>",
+    "bar-chart-2":"<line x1=\"18\" y1=\"20\" x2=\"18\" y2=\"10\"/><line x1=\"12\" y1=\"20\" x2=\"12\" y2=\"4\"/><line x1=\"6\" y1=\"20\" x2=\"6\" y2=\"14\"/>",
+    "pie-chart":"<path d=\"M21.21 15.89A10 10 0 1 1 8 2.83\"/><path d=\"M22 12A10 10 0 0 0 12 2v10z\"/>",
+    "alert-triangle":"<path d=\"M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z\"/><line x1=\"12\" y1=\"9\" x2=\"12\" y2=\"13\"/><line x1=\"12\" y1=\"17\" x2=\"12.01\" y2=\"17\"/>",
+    "users":"<path d=\"M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M23 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/>",
+    "factory":"<path d=\"M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z\"/><path d=\"M17 18h1\"/><path d=\"M12 18h1\"/><path d=\"M7 18h1\"/>",
+    "map":"<polygon points=\"1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6\"/><line x1=\"8\" y1=\"2\" x2=\"8\" y2=\"18\"/><line x1=\"16\" y1=\"6\" x2=\"16\" y2=\"22\"/>",
+    "minus-circle":"<circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"8\" y1=\"12\" x2=\"16\" y2=\"12\"/>",
+    "arrow-right":"<line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"/><polyline points=\"12 5 19 12 12 19\"/>",
+    "chevron-down":"<polyline points=\"6 9 12 15 18 9\"/>",
+    "external-link":"<path d=\"M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6\"/><polyline points=\"15 3 21 3 21 9\"/><line x1=\"10\" y1=\"14\" x2=\"21\" y2=\"3\"/>",
+    "truck":"<rect x=\"1\" y=\"3\" width=\"15\" height=\"13\" rx=\"2\"/><polygon points=\"16 8 20 8 23 11 23 16 16 16 16 8\"/><circle cx=\"5.5\" cy=\"18.5\" r=\"2.5\"/><circle cx=\"18.5\" cy=\"18.5\" r=\"2.5\"/>",
+    "home":"<path d=\"m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><polyline points=\"9 22 9 12 15 12 15 22\"/>",
+    "leaf":"<path d=\"M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z\"/><path d=\"M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12\"/>",
+    "bar-chart":"<line x1=\"12\" y1=\"20\" x2=\"12\" y2=\"10\"/><line x1=\"18\" y1=\"20\" x2=\"18\" y2=\"4\"/><line x1=\"6\" y1=\"20\" x2=\"6\" y2=\"16\"/>"
+  };
+  function createIcons(){
+    document.querySelectorAll('[data-lucide]').forEach(function(el){
+      var name=el.getAttribute('data-lucide'),paths=icons[name];
+      if(!paths)return;
+      var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+      svg.setAttribute('xmlns','http://www.w3.org/2000/svg');
+      svg.setAttribute('width','24');svg.setAttribute('height','24');
+      svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('fill','none');
+      svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.5');
+      svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');
+      if(el.className)svg.setAttribute('class',el.className);
+      if(el.getAttribute('style'))svg.setAttribute('style',el.getAttribute('style'));
+      svg.innerHTML=paths;el.parentNode.replaceChild(svg,el);
+    });
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',createIcons);}else{createIcons();}
+  window.lucide={createIcons:createIcons};
+})();
+</script>
+<style>
+:root {
+  --white:      #FFFFFF;
+  --black:      #000000;
+  --blu-900:    #270065;
+  --blu-800:    #340088;
+  --blu-700:    #4400B3;
+  --blu-500:    #6E1AFF;
+  --blu-400:    #ae81fd;
+  --lime:       #B9FF69;
+  --grey-light: #F5F5F3;
+  --grey-mid:   #DDDDDA;
+  --grey-text:  #555555;
+  --fd: 'Hedvig Letters Serif', Lora, Georgia, serif;
+  --fb: 'Atkinson Hyperlegible Next', Poppins, Calibri, sans-serif;
+  --fm: 'Atkinson Hyperlegible Next', Poppins, Calibri, sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--white);color:var(--black);font-variant-ligatures:no-common-ligatures;}
+section{scroll-margin-top:calc(56px + 36px);}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--blu-900);height:56px;padding:0 48px;display:flex;align-items:center;justify-content:space-between;}
+.nav::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--lime);}
+.nav__brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav__brand-name{font-family:var(--fd);font-size:18px;color:var(--white);}
+.nav__brand-name em{color:var(--lime);font-style:normal;}
+.nav__links{display:flex;align-items:center;gap:28px;list-style:none;}
+.nav__links a{font-family:var(--fm);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s;}
+.nav__links a:hover{color:var(--lime);}
+
+/* ── BREADCRUMB ── */
+.sec-crumb{position:fixed;top:56px;left:0;right:0;z-index:190;height:36px;background:var(--blu-900);display:flex;align-items:center;padding:0 48px;transform:translateY(-100%);opacity:0;transition:transform .28s cubic-bezier(.4,0,.2,1),opacity .22s ease;border-bottom:1px solid rgba(185,255,105,.18);}
+.sec-crumb.visible{transform:translateY(0);opacity:1;}
+.sec-crumb__sep{width:3px;height:18px;background:var(--lime);flex-shrink:0;margin-right:14px;}
+.sec-crumb__inner{display:flex;align-items:center;gap:10px;overflow:hidden;}
+.sec-crumb__tag{font-family:var(--fm);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);flex-shrink:0;opacity:.75;white-space:nowrap;}
+.sec-crumb__arrow{color:rgba(185,255,105,.35);font-size:10px;flex-shrink:0;margin:0 2px;}
+.sec-crumb__title{font-family:var(--fd);font-size:13px;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .18s ease,transform .18s ease;}
+.sec-crumb__title.exiting{opacity:0;transform:translateY(-6px);}
+.sec-crumb__title.entering{opacity:0;transform:translateY(6px);}
+.sec-crumb__num{margin-left:auto;font-family:var(--fm);font-size:9px;letter-spacing:.16em;color:rgba(174,129,253,.6);white-space:nowrap;flex-shrink:0;}
+.sec-crumb__track{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(255,255,255,.08);}
+.sec-crumb__fill{position:absolute;bottom:0;left:0;height:2px;background:var(--lime);width:0%;transition:width .08s linear;}
+
+/* ── TOC ── */
+.toc{position:fixed;right:24px;top:50%;transform:translateY(-50%);z-index:150;display:flex;flex-direction:column;gap:10px;}
+.toc__dot{width:8px;height:8px;background:rgba(255,255,255,.25);cursor:pointer;transition:background .2s,transform .2s;position:relative;}
+.toc__dot:hover,.toc__dot.active{background:var(--lime);transform:scale(1.4);}
+.toc__dot::after{content:attr(data-label);position:absolute;right:18px;top:50%;transform:translateY(-50%);font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--white);background:var(--blu-900);padding:4px 8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;}
+.toc__dot:hover::after{opacity:1;}
+
+/* ── HERO ── */
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:80vh;margin-top:56px;background:var(--blu-900);}
+.hero__l{padding:80px 64px;display:flex;flex-direction:column;justify-content:center;gap:0;}
+.hero__eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--fm);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);margin-bottom:20px;}
+.hero__eyebrow svg{width:16px;height:16px;stroke:var(--lime);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.hero__h1{font-family:var(--fd);font-weight:400;font-size:58px;color:var(--white);line-height:1.05;margin-bottom:28px;}
+.hero__h1 em{color:var(--lime);font-style:normal;}
+.hero__lead{font-size:17px;color:rgba(255,255,255,.68);line-height:1.75;max-width:460px;margin-bottom:40px;}
+.hero__cta-row{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.hero__cta{display:inline-flex;align-items:center;gap:10px;background:var(--lime);color:var(--blu-900);font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:14px 24px;transition:background .2s,color .2s;}
+.hero__cta:hover{background:var(--white);}
+.hero__cta svg{width:16px;height:16px;stroke:var(--blu-900);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.hero__date{font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);}
+.hero__r{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;}
+/* animated price ticker */
+.price-ticker{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:48px;gap:4px;}
+.pt__label{font-family:var(--fm);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(185,255,105,.55);margin-bottom:8px;}
+.pt__big{font-family:var(--fd);font-size:110px;line-height:1;color:var(--white);}
+.pt__unit{font-family:var(--fm);font-size:14px;letter-spacing:.14em;color:var(--lime);margin-top:4px;}
+.pt__delta{display:inline-flex;align-items:center;gap:6px;margin-top:18px;background:rgba(185,255,105,.12);border:1px solid rgba(185,255,105,.25);padding:6px 14px;font-family:var(--fm);font-size:12px;color:var(--lime);letter-spacing:.1em;}
+.pt__delta svg{width:14px;height:14px;stroke:var(--lime);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.hero__cap{background:var(--blu-900);padding:12px 24px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(185,255,105,.15);}
+.hero__cap span{font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--grey-mid);}
+.hero__cap strong{color:var(--lime);}
+
+/* lime border after hero */
+.lime-bar{height:4px;background:var(--lime);}
+
+/* ── SEZIONI BASE ── */
+.s-light{background:var(--white);padding:80px 64px;}
+.s-dark{background:var(--blu-900);padding:80px 64px;}
+.s-grey{background:var(--grey-light);padding:80px 64px;}
+
+/* ── SECTION HEADER ── */
+.sh{display:flex;align-items:center;gap:16px;margin-bottom:48px;}
+.sh__bar{width:4px;height:40px;background:var(--lime);flex-shrink:0;}
+.sh__tag{font-family:var(--fm);font-size:16px;letter-spacing:.16em;text-transform:uppercase;color:var(--blu-700);margin-bottom:4px;}
+.sh__title{font-family:var(--fd);font-weight:400;font-size:29px;color:var(--black);}
+.s-dark .sh__tag{color:var(--lime);}
+.s-dark .sh__title{color:var(--white);}
+
+/* ── INSIGHT (lime band) ── */
+.insight{background:var(--lime);padding:48px 64px;display:flex;align-items:center;gap:32px;}
+.insight__bar{width:4px;min-height:72px;background:var(--blu-900);flex-shrink:0;}
+.insight__label{font-family:var(--fm);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--blu-900);margin-bottom:8px;}
+.insight__text{font-family:var(--fd);font-size:22px;color:var(--blu-900);line-height:1.45;max-width:900px;}
+
+/* ── LAYOUTS ── */
+.c2{display:grid;grid-template-columns:1fr 1.3fr;gap:64px;align-items:start;}
+.c2eq{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+.c3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;}
+.ch2{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+
+/* ── TEXT BLOCK ── */
+.tx h3{font-family:var(--fd);font-weight:400;font-size:27px;color:var(--black);margin-bottom:18px;line-height:1.25;}
+.tx p{font-size:15px;color:var(--grey-text);line-height:1.85;margin-bottom:16px;}
+.tx p strong{color:var(--blu-700);font-weight:600;}
+.tx--d h3{color:var(--white);}
+.tx--d p{color:var(--grey-mid);}
+.tx--d p strong{color:var(--lime);}
+
+/* ── STAT STRIP (numeri a scorrimento) ── */
+.stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:64px;}
+.stat-item{background:var(--grey-light);padding:32px 28px;border-top:3px solid var(--grey-mid);transition:border-color .2s,background .2s;}
+.stat-item:hover{border-top-color:var(--blu-700);background:var(--white);}
+.stat-item__tag{font-family:var(--fm);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-text);margin-bottom:10px;}
+.stat-item__val{font-family:var(--fd);font-size:46px;color:var(--blu-700);line-height:1;}
+.stat-item__unit{font-family:var(--fm);font-size:12px;color:var(--grey-text);margin-top:4px;letter-spacing:.04em;}
+.stat-item__desc{font-size:13px;color:var(--grey-text);line-height:1.55;margin-top:10px;}
+
+/* ── TIMELINE PREZZO ── */
+.timeline{display:flex;flex-direction:column;gap:0;}
+.tl-row{display:flex;align-items:stretch;gap:0;cursor:default;}
+.tl-row + .tl-row{border-top:1px solid var(--grey-mid);}
+.tl-row__yr{font-family:var(--fm);font-size:11px;letter-spacing:.12em;color:var(--blu-700);width:56px;flex-shrink:0;padding:20px 0 20px 0;display:flex;align-items:center;}
+.tl-row__dot{width:24px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:0 4px;}
+.tl-row__dot-circle{width:10px;height:10px;background:var(--grey-mid);margin-top:22px;flex-shrink:0;transition:background .2s;}
+.tl-row__dot-line{flex:1;width:2px;background:var(--grey-mid);margin-top:2px;}
+.tl-row:last-child .tl-row__dot-line{display:none;}
+.tl-row:hover .tl-row__dot-circle{background:var(--blu-700);}
+.tl-row--peak .tl-row__dot-circle{background:var(--lime)!important;width:14px;height:14px;margin-top:20px;}
+.tl-row--peak .tl-row__yr{color:var(--lime);}
+.tl-row__body{flex:1;padding:16px 20px 16px 12px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.tl-row__event{font-size:14px;color:var(--grey-text);line-height:1.5;flex:1;}
+.tl-row--peak .tl-row__event{color:var(--black);font-weight:600;}
+.tl-row__price{font-family:var(--fd);font-size:32px;color:var(--black);flex-shrink:0;}
+.tl-row--peak .tl-row__price{color:var(--blu-700);}
+.tl-row__badge{font-family:var(--fm);font-size:9px;letter-spacing:.16em;text-transform:uppercase;background:var(--lime);color:var(--blu-900);padding:3px 8px;flex-shrink:0;display:none;}
+.tl-row--peak .tl-row__badge{display:inline;}
+
+/* ── CAUSE CARDS ── */
+.cause-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.cause-card{padding:40px 32px;display:flex;flex-direction:column;gap:16px;background:var(--grey-light);position:relative;overflow:hidden;transition:background .2s;cursor:default;}
+.cause-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--blu-700);transition:background .2s;}
+.cause-card:nth-child(2)::before{background:var(--blu-500);}
+.cause-card:nth-child(3)::before{background:var(--blu-400);}
+.cause-card:hover{background:var(--white);}
+.cause-card__icon svg{width:32px;height:32px;stroke:var(--blu-700);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.cause-card:nth-child(2) .cause-card__icon svg{stroke:var(--blu-500);}
+.cause-card:nth-child(3) .cause-card__icon svg{stroke:var(--blu-400);}
+.cause-card__num{font-family:var(--fd);font-size:64px;line-height:1;color:var(--grey-mid);}
+.cause-card__title{font-family:var(--fd);font-weight:400;font-size:24px;color:var(--black);line-height:1.2;}
+.cause-card__body{font-size:14px;color:var(--grey-text);line-height:1.75;}
+
+/* ── IMPATTI CARDS ── */
+.impact-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.impact-card{background:var(--blu-800);padding:36px 32px;display:flex;gap:20px;transition:background .2s;cursor:default;}
+.impact-card:hover{background:var(--blu-700);}
+.impact-card__icon svg{width:28px;height:28px;stroke:var(--lime);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-top:2px;}
+.impact-card__tag{font-family:var(--fm);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--lime);margin-bottom:6px;}
+.impact-card__title{font-family:var(--fd);font-weight:400;font-size:22px;color:var(--white);margin-bottom:8px;line-height:1.2;}
+.impact-card__body{font-size:14px;color:var(--grey-mid);line-height:1.65;}
+.impact-card__val{font-family:var(--fd);font-size:38px;color:var(--white);margin-top:14px;line-height:1;}
+.impact-card__val-unit{font-family:var(--fm);font-size:12px;color:var(--blu-400);letter-spacing:.06em;}
+
+/* ── FAQ ── */
+.faq-list{display:flex;flex-direction:column;gap:2px;}
+.faq-item{background:var(--grey-light);cursor:pointer;transition:background .2s;}
+.faq-item:hover{background:var(--grey-mid);}
+.faq-item.open{background:var(--white);}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:24px 28px;gap:16px;}
+.faq-q__text{font-family:var(--fd);font-weight:400;font-size:18px;color:var(--black);line-height:1.3;}
+.faq-q__icon{flex-shrink:0;transition:transform .3s;}
+.faq-q__icon svg{width:20px;height:20px;stroke:var(--blu-700);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.faq-item.open .faq-q__icon{transform:rotate(180deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;}
+.faq-a.open{max-height:400px;}
+.faq-a__inner{padding:0 28px 24px;font-size:15px;color:var(--grey-text);line-height:1.8;border-top:1px solid var(--grey-mid);}
+.faq-a__inner strong{color:var(--blu-700);}
+
+/* ── CTA BAND ── */
+.cta-band{background:var(--blu-900);padding:80px 64px;display:flex;align-items:center;justify-content:space-between;gap:48px;border-top:4px solid var(--lime);}
+.cta-band__text h2{font-family:var(--fd);font-weight:400;font-size:38px;color:var(--white);line-height:1.15;margin-bottom:14px;}
+.cta-band__text h2 em{color:var(--lime);font-style:normal;}
+.cta-band__text p{font-size:16px;color:rgba(255,255,255,.6);line-height:1.7;max-width:480px;}
+.cta-band__actions{display:flex;flex-direction:column;gap:12px;flex-shrink:0;}
+.btn-lime{display:inline-flex;align-items:center;gap:10px;background:var(--lime);color:var(--blu-900);font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:16px 28px;transition:background .2s;}
+.btn-lime:hover{background:var(--white);}
+.btn-lime svg{width:16px;height:16px;stroke:var(--blu-900);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.btn-outline{display:inline-flex;align-items:center;gap:10px;border:2px solid rgba(255,255,255,.3);color:rgba(255,255,255,.7);font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:16px 28px;transition:border-color .2s,color .2s;}
+.btn-outline:hover{border-color:var(--lime);color:var(--lime);}
+.btn-outline svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ── HIGHLIGHT BOX ── */
+.hlb{background:var(--lime);padding:24px 28px;display:flex;gap:14px;margin-top:24px;}
+.hlb__bar{width:4px;background:var(--blu-900);flex-shrink:0;}
+.hlb__tx{font-size:15px;color:var(--blu-900);line-height:1.7;}
+.hlb__tx strong{font-weight:600;}
+
+/* ── SPACERS ── */
+.sp32{height:32px;} .sp48{height:48px;}
+
+/* ── FOOTER ── */
+.footer{background:var(--black);font-family:var(--fb);}
+.footer__top{display:grid;grid-template-columns:1fr 1fr;gap:64px;padding:56px 64px 48px;border-bottom:1px solid #2a2a2a;}
+.footer__logo-name{font-family:var(--fd);font-size:22px;color:var(--white);margin-bottom:20px;}
+.footer__logo-name em{color:var(--lime);font-style:normal;}
+.footer__tagline{font-size:14px;color:#888;line-height:1.7;max-width:340px;margin-bottom:20px;}
+.footer__condizioni-label{font-family:var(--fm);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#666;margin-bottom:16px;}
+.footer__condizioni-text{font-size:13px;color:#777;line-height:1.75;}
+.footer__bottom{display:flex;align-items:center;justify-content:space-between;padding:20px 64px;}
+.footer__bottom-left{font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#555;text-decoration:none;}
+.footer__bottom-right{font-family:var(--fm);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#555;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero__r{min-height:300px;}
+  .hero__l{padding:56px 32px;}
+  .c2,.c2eq,.c3,.ch2,.cause-grid,.impact-grid,.stat-strip{grid-template-columns:1fr;}
+  .s-light,.s-dark,.s-grey,.insight,.cta-band{padding:56px 32px;}
+  .nav{padding:0 24px;}
+  .nav__links{display:none;}
+  .toc{display:none;}
+  .footer__top{grid-template-columns:1fr;padding:40px 32px 32px;gap:40px;}
+  .footer__bottom{padding:16px 32px;flex-direction:column;gap:8px;text-align:center;}
+  .cta-band{flex-direction:column;}
+  .sec-crumb{padding:0 24px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#hero" class="nav__brand">
+    <span class="nav__brand-name">Open<em>Economics</em></span>
+  </a>
+  <ul class="nav__links">
+    <li><a href="#numeri">I numeri</a></li>
+    <li><a href="#cause">Le cause</a></li>
+    <li><a href="#impatti">Gli impatti</a></li>
+    <li><a href="#domande">FAQ</a></li>
+  </ul>
+</nav>
+
+<!-- SECTION BREADCRUMB -->
+<div class="sec-crumb" id="secCrumb">
+  <div class="sec-crumb__sep"></div>
+  <div class="sec-crumb__inner">
+    <span class="sec-crumb__tag" id="crumbTag">—</span>
+    <span class="sec-crumb__arrow">›</span>
+    <span class="sec-crumb__title" id="crumbTitle">—</span>
+  </div>
+  <span class="sec-crumb__num" id="crumbNum">1 / 4</span>
+  <div class="sec-crumb__track"></div>
+  <div class="sec-crumb__fill" id="crumbFill"></div>
+</div>
+
+<!-- TOC DOTS -->
+<nav class="toc">
+  <div class="toc__dot active"  data-label="Intro"    data-s="hero"     onclick="navTo('hero')"></div>
+  <div class="toc__dot"         data-label="Numeri"   data-s="numeri"   onclick="navTo('numeri')"></div>
+  <div class="toc__dot"         data-label="Cause"    data-s="cause"    onclick="navTo('cause')"></div>
+  <div class="toc__dot"         data-label="Impatti"  data-s="impatti"  onclick="navTo('impatti')"></div>
+  <div class="toc__dot"         data-label="FAQ"      data-s="domande"  onclick="navTo('domande')"></div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero__l">
+    <div class="hero__eyebrow">
+      <i data-lucide="flame"></i>
+      Energia &amp; Consumi · Italia 2025
+    </div>
+    <h1 class="hero__h1">Perché la benzina<br>costa <em>così tanto?</em></h1>
+    <p class="hero__lead">Dal greggio alla pompa, dalla geopolitica alle accise storiche: un viaggio dentro il prezzo che ogni italiano paga ogni settimana — e che nessuno ha ancora davvero spiegato per bene.</p>
+    <div class="hero__cta-row">
+      <a href="#numeri" class="hero__cta">
+        <i data-lucide="arrow-right"></i>
+        Scopri i dati
+      </a>
+      <span class="hero__date">Aggiornato · Aprile 2025</span>
+    </div>
+  </div>
+  <div class="hero__r">
+    <div class="price-ticker">
+      <div class="pt__label">Prezzo medio benzina self-service · Italia</div>
+      <div class="pt__big">1,84</div>
+      <div class="pt__unit">€ / litro &nbsp;·&nbsp; media 2024</div>
+      <div class="pt__delta">
+        <i data-lucide="trending-up"></i>
+        +38% rispetto al 2019
+      </div>
+    </div>
+    <div class="hero__cap">
+      <span>Fonte: MIMIT · Staffetta Quotidiana</span>
+      <strong>2025</strong>
+    </div>
+  </div>
+</section>
+
+<div class="lime-bar"></div>
+
+<!-- ══════════════════════════════════════════
+     I NUMERI
+══════════════════════════════════════════ -->
+<section class="s-light" id="numeri">
+  <div class="sh">
+    <div class="sh__bar"></div>
+    <div>
+      <div class="sh__tag">I dati reali</div>
+      <div class="sh__title">Quattro numeri per capire il problema</div>
+    </div>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat-item">
+      <div class="stat-item__tag">Prezzo pompa 2024</div>
+      <div class="stat-item__val">1,84</div>
+      <div class="stat-item__unit">€ / litro (self-service)</div>
+      <div class="stat-item__desc">Era 1,53 €/L nel 2019. Un aumento permanente che non è mai rientrato, nemmeno dopo la fine dello shock energetico.</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-item__tag">Tasse sul prezzo finale</div>
+      <div class="stat-item__val">57%</div>
+      <div class="stat-item__unit">accise + IVA</div>
+      <div class="stat-item__desc">Di ogni litro pagato, 1,05 € finiscono allo Stato. Le accise italiane sono tra le più alte d'Europa e risalgono in parte al 1935.</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-item__tag">Spesa media per famiglia</div>
+      <div class="stat-item__val">1.650</div>
+      <div class="stat-item__unit">€ / anno</div>
+      <div class="stat-item__desc">Circa 420 euro in più rispetto al 2019. Per le famiglie periferiche senza trasporto pubblico alternativo, la quota sale fino al 15% del reddito.</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-item__tag">Dipendenza dal greggio estero</div>
+      <div class="stat-item__val">94%</div>
+      <div class="stat-item__unit">importato</div>
+      <div class="stat-item__desc">L'Italia non produce quasi petrolio. Ogni turbolenza geopolitica — da Mosca al Golfo Persico — si traduce entro settimane in un rincaro alla pompa.</div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="c2eq">
+    <div class="tx">
+      <h3>Come è arrivato qui il prezzo</h3>
+      <p>Il prezzo della benzina in Italia non è mai tornato ai livelli del 2019 dopo lo shock energetico del 2022. In tre anni ha attraversato un picco storico (2,28 €/L a marzo 2022), una parziale discesa, e una stabilizzazione su un nuovo pavimento strutturale.</p>
+      <p>La variazione tra il minimo pandemico del 2020 (1,33 €/L) e la media 2024 è di <strong>51 centesimi al litro</strong>: equivale a circa 28 euro in più ogni volta che si fa un pieno da 55 litri.</p>
+      <div class="hlb">
+        <div class="hlb__bar"></div>
+        <div class="hlb__tx"><strong>Picco storico:</strong> il 18 marzo 2022, la benzina self-service ha raggiunto 2,28 €/L, il massimo assoluto mai registrato in Italia dall'introduzione dell'euro.</div>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tl-row">
+        <div class="tl-row__yr">2019</div>
+        <div class="tl-row__dot"><div class="tl-row__dot-circle"></div><div class="tl-row__dot-line"></div></div>
+        <div class="tl-row__body">
+          <div class="tl-row__event">Anno di riferimento pre-crisi</div>
+          <div class="tl-row__price">1,53</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-row__yr">2020</div>
+        <div class="tl-row__dot"><div class="tl-row__dot-circle"></div><div class="tl-row__dot-line"></div></div>
+        <div class="tl-row__body">
+          <div class="tl-row__event">Crollo pandemico della domanda globale</div>
+          <div class="tl-row__price">1,33</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-row__yr">2021</div>
+        <div class="tl-row__dot"><div class="tl-row__dot-circle"></div><div class="tl-row__dot-line"></div></div>
+        <div class="tl-row__body">
+          <div class="tl-row__event">Rimbalzo: scorte basse, domanda in ripresa</div>
+          <div class="tl-row__price">1,61</div>
+        </div>
+      </div>
+      <div class="tl-row tl-row--peak">
+        <div class="tl-row__yr">2022</div>
+        <div class="tl-row__dot"><div class="tl-row__dot-circle"></div><div class="tl-row__dot-line"></div></div>
+        <div class="tl-row__body">
+          <div class="tl-row__event">Shock russo-ucraino &nbsp;<span class="tl-row__badge">Picco storico</span></div>
+          <div class="tl-row__price">1,96</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-row__yr">2023</div>
+        <div class="tl-row__dot"><div class="tl-row__dot-circle"></div><div class="tl-row__dot-line"></div></div>
+        <div class="tl-row__body">
+          <div class="tl-row__event">Normalizzazione parziale, prezzi ancora alti</div>
+          <div class="tl-row__price">1,88</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-row__yr">2024</div>
+        <div class="tl-row__dot"><div class="tl-row__dot-circle"></div></div>
+        <div class="tl-row__body">
+          <div class="tl-row__event">Nuovo pavimento strutturale</div>
+          <div class="tl-row__price">1,84</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSIGHT #1 -->
+<div class="insight">
+  <div class="insight__bar"></div>
+  <div>
+    <div class="insight__label">Il dato che sorprende</div>
+    <div class="insight__text">Il prezzo della benzina non è mai tornato al livello pre-pandemia. Anche dopo due anni di "normalizzazione", paghiamo ancora il 20% in più rispetto al 2019 — un rincaro permanente che si è sedimentato come nuova normalità senza che quasi nessuno lo abbia dichiarato tale.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     LE CAUSE
+══════════════════════════════════════════ -->
+<section class="s-grey" id="cause">
+  <div class="sh">
+    <div class="sh__bar"></div>
+    <div>
+      <div class="sh__tag">Perché costa tanto</div>
+      <div class="sh__title">Tre cause che si sommano ogni volta che fai benzina</div>
+    </div>
+  </div>
+
+  <div class="cause-grid">
+    <div class="cause-card">
+      <div class="cause-card__icon"><i data-lucide="globe"></i></div>
+      <div class="cause-card__num">01</div>
+      <div class="cause-card__title">Il mercato globale del greggio</div>
+      <div class="cause-card__body">Circa il 40% del prezzo finale dipende dal Brent, il petrolio di riferimento europeo. Ogni guerra, ogni decisione dell'OPEC+, ogni crisi in un Paese produttore arriva in pompa con uno sfasamento di 2–4 settimane. L'Italia — che importa il 94% del petrolio — non ha nessuna leva su questa componente.</div>
+    </div>
+    <div class="cause-card">
+      <div class="cause-card__icon"><i data-lucide="factory"></i></div>
+      <div class="cause-card__num">02</div>
+      <div class="cause-card__title">Raffinazione e distribuzione</div>
+      <div class="cause-card__body">Trasformare il greggio in benzina ha un costo (il cosiddetto "crack spread"), cresciuto molto dopo il 2021 con la riapertura post-Covid e la riconversione delle raffinerie europee. A questo si aggiunge il margine della rete distributiva italiana, frammentata e poco efficiente rispetto alla media UE.</div>
+    </div>
+    <div class="cause-card">
+      <div class="cause-card__icon"><i data-lucide="shield"></i></div>
+      <div class="cause-card__num">03</div>
+      <div class="cause-card__title">La fiscalità più pesante d'Europa</div>
+      <div class="cause-card__body">0,73 €/L di accise fisse — alcune in vigore dal 1935, legate a eventi come la guerra d'Abissinia o l'alluvione del Polesine — più IVA al 22% calcolata sull'intero prezzo, tasse incluse. Il risultato: una tassa sulla tassa che amplifica automaticamente ogni rincaro.</div>
+    </div>
+  </div>
+</section>
+
+<!-- INSIGHT #2 -->
+<div class="insight">
+  <div class="insight__bar"></div>
+  <div>
+    <div class="insight__label">La cosa che nessuno dice</div>
+    <div class="insight__text">Nelle accise italiane ci sono ancora voci legate alla guerra d'Abissinia del 1935, all'alluvione del Polesine del 1951 e al terremoto del Belice del 1968. Emergenze di 60–90 anni fa, mai eliminate dal bilancio statale, che ogni automobilista continua a pagare ogni volta che fa benzina.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     GLI IMPATTI
+══════════════════════════════════════════ -->
+<section class="s-dark" id="impatti">
+  <div class="sh">
+    <div class="sh__bar"></div>
+    <div>
+      <div class="sh__tag">Chi paga il conto</div>
+      <div class="sh__title">Gli impatti reali su famiglie e imprese</div>
+    </div>
+  </div>
+
+  <div class="impact-grid">
+    <div class="impact-card">
+      <div class="impact-card__icon"><i data-lucide="home"></i></div>
+      <div>
+        <div class="impact-card__tag">Famiglie</div>
+        <div class="impact-card__title">Il reddito che si assottiglia</div>
+        <div class="impact-card__body">Una famiglia media italiana spende 1.650 € l'anno in carburante — 420 € in più rispetto al 2019. Per chi abita in aree prive di trasporto pubblico, rinunciare all'auto non è un'opzione: il carburante è un costo fisso, non comprimibile.</div>
+        <div class="impact-card__val">+420 <span class="impact-card__val-unit">€/anno per famiglia</span></div>
+      </div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-card__icon"><i data-lucide="truck"></i></div>
+      <div>
+        <div class="impact-card__tag">Logistica e trasporti</div>
+        <div class="impact-card__title">L'effetto a cascata sui prezzi</div>
+        <div class="impact-card__body">L'87% delle merci italiane viaggia su gomma. Gli extra-costi del gasolio si traducono in aumenti di prezzo lungo tutta la filiera: alimentare, farmaceutico, edilizia. Il caro carburante è una delle cause meno visibili — ma più pervasive — dell'inflazione recente.</div>
+        <div class="impact-card__val">8,2 mld <span class="impact-card__val-unit">€ extra-costi logistica/anno</span></div>
+      </div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-card__icon"><i data-lucide="leaf"></i></div>
+      <div>
+        <div class="impact-card__tag">Agricoltura e pesca</div>
+        <div class="impact-card__title">Settori senza margini di difesa</div>
+        <div class="impact-card__body">Trattori, pescherecci, serre riscaldate: agricoltura e pesca hanno un'intensità energetica elevatissima e margini già compressi. A differenza delle imprese industriali, non possono trasferire facilmente i costi al consumatore finale senza perdere competitività.</div>
+        <div class="impact-card__val">−18% <span class="impact-card__val-unit">margini pesca 2021–2023</span></div>
+      </div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-card__icon"><i data-lucide="bar-chart"></i></div>
+      <div>
+        <div class="impact-card__tag">Inflazione generale</div>
+        <div class="impact-card__title">Il contributo invisibile al carovita</div>
+        <div class="impact-card__body">Nel biennio 2022–2023 il caro carburante ha contribuito per circa 1,4 punti percentuali all'inflazione italiana. Un effetto che si propaga: costa di più il gasolio, costa di più portare la frutta al mercato, costa di più il pane.</div>
+        <div class="impact-card__val">+1,4 pp <span class="impact-card__val-unit">inflazione indotta stimata</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSIGHT #3 -->
+<div class="insight">
+  <div class="insight__bar"></div>
+  <div>
+    <div class="insight__label">Il paradosso italiano</div>
+    <div class="insight__text">L'Italia tassa la benzina più di quasi tutti in Europa, ma non investe quei proventi in trasporto pubblico alternativo: il risultato è una popolazione ostaggio dell'auto privata, che non può scegliere di non fare benzina e non può fare altro che pagare.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     FAQ
+══════════════════════════════════════════ -->
+<section class="s-light" id="domande">
+  <div class="sh">
+    <div class="sh__bar"></div>
+    <div>
+      <div class="sh__tag">Le domande più comuni</div>
+      <div class="sh__title">Cosa puoi fare (e cosa no)</div>
+    </div>
+  </div>
+
+  <div class="faq-list">
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        <div class="faq-q__text">Perché la benzina in Italia costa più che in altri Paesi europei?</div>
+        <div class="faq-q__icon"><i data-lucide="chevron-down"></i></div>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a__inner">Le accise italiane (0,73 €/L) sono tra le più alte d'Europa, insieme alle tedesche. A questo si aggiunge l'IVA al 22% applicata sull'intero prezzo — tasse incluse — creando un effetto amplificatore. In Francia le accise sono circa 0,68 €/L, in Spagna 0,47 €/L. Il divario si nota soprattutto al confine con la Slovenia o la Svizzera, dove molti italiani "frontalieri" fanno pieno.</div>
+      </div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        <div class="faq-q__text">Il governo può abbassare il prezzo della benzina?</div>
+        <div class="faq-q__icon"><i data-lucide="chevron-down"></i></div>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a__inner">Sì, ma ha un costo fiscale elevato. Un taglio di 0,10 €/L alle accise costerebbe circa 2–3 miliardi di euro l'anno di minore gettito. Il governo Draghi nel 2022 introdusse un taglio temporaneo di 0,25 €/L (poi rimosso). Il problema è che tali misure tendono a essere temporanee e non risolvono la dipendenza strutturale dall'estero.</div>
+      </div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        <div class="faq-q__text">Conviene davvero passare all'elettrico per risparmiare?</div>
+        <div class="faq-q__icon"><i data-lucide="chevron-down"></i></div>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a__inner">Dipende molto dal profilo di utilizzo. Per chi percorre oltre 15.000 km/anno in aree urbane con accesso alla ricarica domestica, il risparmio annuo può superare i 1.000 €. Il problema è il costo di acquisto (ancora elevato), la rete di ricarica insufficiente nelle aree rurali e al Sud, e l'età media del parco auto italiano (12,5 anni), che rende la transizione lenta per la maggior parte delle famiglie.</div>
+      </div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        <div class="faq-q__text">Le accise sui carburanti finanziano davvero la guerra d'Abissinia?</div>
+        <div class="faq-q__icon"><i data-lucide="chevron-down"></i></div>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a__inner">Formalmente sì, anche se in pratica confluiscono nel bilancio generale dello Stato. Le accise italiane sui carburanti sono state introdotte e aumentate in più occasioni per finanziare emergenze specifiche: la guerra d'Etiopia (1935), la crisi di Suez (1956), il terremoto del Belice (1968), l'alluvione di Firenze (1966), la ricostruzione del Friuli (1976) e così via. <strong>Nessuna di queste maggiorazioni è mai stata soppressa</strong>, nonostante le emergenze siano terminate da decenni.</div>
+      </div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        <div class="faq-q__text">Cosa prevede il futuro? I prezzi scenderanno?</div>
+        <div class="faq-q__icon"><i data-lucide="chevron-down"></i></div>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a__inner">Le previsioni sull'energia sono notoriamente difficili. Nel breve periodo (2025–2026), i prezzi del Brent oscillano tra 70 e 90 $/barile in un contesto di domanda stabile e offerta gestita dall'OPEC+. Nel medio periodo, la progressiva diffusione dei veicoli elettrici potrebbe ridurre la domanda di benzina in Europa, ma l'effetto sarà graduale. La fiscalità italiana — salvo riforme strutturali — resterà invariata.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CTA BAND
+══════════════════════════════════════════ -->
+<div class="cta-band">
+  <div class="cta-band__text">
+    <h2>Vuoi capire come questi costi<br>impattano sulla tua <em>impresa o settore?</em></h2>
+    <p>OpenEconomics realizza analisi di impatto economico, studi settoriali e valutazioni di policy energetica per imprese, associazioni di categoria e pubblica amministrazione.</p>
+  </div>
+  <div class="cta-band__actions">
+    <a href="https://www.openeconomics.eu" target="_blank" rel="noopener" class="btn-lime">
+      <i data-lucide="arrow-right"></i>
+      Contattaci
+    </a>
+    <a href="https://www.openeconomics.eu" target="_blank" rel="noopener" class="btn-outline">
+      <i data-lucide="external-link"></i>
+      Scopri i nostri servizi
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer__top">
+    <div>
+      <div class="footer__logo-name">Open<em>Economics</em></div>
+      <p class="footer__tagline">Soluzioni integrate per l'analisi d'impatto socioeconomico e la gestione di finanziamenti pubblici, sostenendo imprese e PA nella mitigazione dei rischi finanziari, sociali e climatici.</p>
+    </div>
+    <div>
+      <div class="footer__condizioni-label">Condizioni d'uso</div>
+      <p class="footer__condizioni-text">Il presente documento e tutte le informazioni in esso contenute possono essere divulgati, a condizione che la distribuzione avvenga citando OpenEconomics come fonte. Le informazioni sono fornite a scopo puramente informativo e non implicano alcuna garanzia o impegno da parte di OpenEconomics. Le analisi economiche contenute nel documento sono state elaborate sulla base di fonti pubbliche autorevoli e fornitori di dati specialistici, con l'obiettivo di offrire una valutazione professionale, oggettiva e prudenziale in linea con le prassi metodologiche di comparto. Al documento e ai suoi contenuti si applicano il copyright e le norme in materia di protezione dei dati personali.</p>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <a href="https://www.openeconomics.eu" target="_blank" rel="noopener" class="footer__bottom-left">www.openeconomics.eu</a>
+    <div class="footer__bottom-right">Copyright &copy; OpenEconomics SRL 2026</div>
+  </div>
+</footer>
+
+<script>
+/* ── NAV ── */
+function navTo(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'});}
+
+function setActiveDot(id){
+  document.querySelectorAll('.toc__dot').forEach(d=>d.classList.toggle('active',d.getAttribute('data-s')===id));
+}
+
+/* ── FAQ ── */
+function toggleFaq(item){
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-a').classList.remove('open');});
+  if(!isOpen){item.classList.add('open');item.querySelector('.faq-a').classList.add('open');}
+}
+
+/* ── BREADCRUMB ── */
+const SECTIONS=[
+  {id:'numeri',   tag:'I dati reali',         title:'Quattro numeri per capire il problema',     num:'1 / 4'},
+  {id:'cause',    tag:'Perché costa tanto',    title:'Tre cause che si sommano ogni volta',       num:'2 / 4'},
+  {id:'impatti',  tag:'Chi paga il conto',     title:'Gli impatti reali su famiglie e imprese',   num:'3 / 4'},
+  {id:'domande',  tag:'Le domande più comuni', title:'Cosa puoi fare (e cosa no)',                num:'4 / 4'},
+];
+
+const crumb=document.getElementById('secCrumb');
+const crumbTag=document.getElementById('crumbTag');
+const crumbTitle=document.getElementById('crumbTitle');
+const crumbNum=document.getElementById('crumbNum');
+const crumbFill=document.getElementById('crumbFill');
+let currentId=null,titleAnim=null;
+const NAV_H=56,CRUMB_H=36;
+
+function showCrumb(show){crumb.classList.toggle('visible',show);}
+function setCrumbContent(sec){
+  if(sec.id===currentId)return;
+  currentId=sec.id;
+  crumbTitle.classList.add('exiting');
+  clearTimeout(titleAnim);
+  titleAnim=setTimeout(()=>{
+    crumbTag.textContent=sec.tag;
+    crumbTitle.textContent=sec.title;
+    crumbNum.textContent=sec.num;
+    crumbTitle.classList.remove('exiting');
+    crumbTitle.classList.add('entering');
+    void crumbTitle.offsetWidth;
+    crumbTitle.classList.remove('entering');
+  },120);
+}
+function updateProgress(){
+  const s=document.documentElement.scrollHeight-window.innerHeight;
+  const pct=s>0?Math.max(0,Math.min(100,(window.scrollY/s)*100)):0;
+  crumbFill.style.width=pct+'%';
+}
+
+const sectionEls=SECTIONS.map(s=>document.getElementById(s.id)).filter(Boolean);
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){const sec=SECTIONS.find(s=>s.id===e.target.id);if(sec){setCrumbContent(sec);setActiveDot(sec.id);}}
+  });
+},{threshold:0,rootMargin:`-${NAV_H+CRUMB_H}px 0px -60% 0px`});
+sectionEls.forEach(el=>obs.observe(el));
+
+const heroEl=document.getElementById('hero');
+if(heroEl)new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)setActiveDot('hero');});},{threshold:0.25}).observe(heroEl);
+
+let rafId=null;
+window.addEventListener('scroll',()=>{
+  if(rafId)return;
+  rafId=requestAnimationFrame(()=>{
+    rafId=null;
+    const first=sectionEls[0];
+    showCrumb(window.scrollY>(first?first.offsetTop+80:200));
+    updateProgress();
+  });
+},{passive:true});
+</script>
+</body>
+</html>
