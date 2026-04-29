@@ -251,6 +251,16 @@ section{scroll-margin-top:calc(56px + 36px);}
 .hlb__tx{font-size:15px;color:var(--blu-900);line-height:1.7;}
 .hlb__tx strong{font-weight:600;}
 
+/* ── CHART PLACEHOLDER ── */
+.chart-ph{width:100%;height:480px;background:var(--grey-light);border:2px dashed var(--grey-mid);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;margin-top:48px;}
+.chart-ph--dark{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12);}
+.chart-ph__num{font-family:var(--fd);font-size:48px;color:var(--grey-mid);line-height:1;}
+.chart-ph--dark .chart-ph__num{color:rgba(255,255,255,.15);}
+.chart-ph__label{font-family:var(--fm);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey-text);}
+.chart-ph--dark .chart-ph__label{color:rgba(255,255,255,.3);}
+.chart-ph__hint{font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-mid);margin-top:4px;}
+.chart-ph--dark .chart-ph__hint{color:rgba(255,255,255,.15);}
+
 /* ── SPACERS ── */
 .sp32{height:32px;} .sp48{height:48px;}
 
@@ -295,6 +305,7 @@ section{scroll-margin-top:calc(56px + 36px);}
     <li><a href="#cause">Le cause</a></li>
     <li><a href="#impatti">Gli impatti</a></li>
     <li><a href="#domande">FAQ</a></li>
+    <li><a href="OE_A&amp;D_NOTA_METODOLOGICA.pdf" target="_blank" rel="noopener">Metodologia</a></li>
   </ul>
 </nav>
 
@@ -397,6 +408,8 @@ section{scroll-margin-top:calc(56px + 36px);}
     </div>
   </div>
 
+  <!-- GRAFICO 1 — sostituisci con iframe Flourish -->
+  <iframe src='https://flo.uri.sh/visualisation/27506963/embed' title='Interactive or visual content' class='flourish-embed-iframe' frameborder='0' scrolling='no' style='width:100%;height: 1000px;' sandbox='allow-same-origin allow-forms allow-scripts allow-downloads allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation'></iframe>
   <!-- Timeline -->
   <div class="c2eq">
     <div class="tx">
@@ -459,6 +472,14 @@ section{scroll-margin-top:calc(56px + 36px);}
       </div>
     </div>
   </div>
+
+  <!-- GRAFICO 2 — sostituisci con iframe Flourish -->
+  <div class="chart-ph" id="chart-2">
+    <div class="chart-ph__num">02</div>
+    <div class="chart-ph__label">Grafico 2</div>
+    <div class="chart-ph__hint">Embed Flourish da inserire</div>
+  </div>
+
 </section>
 
 <!-- INSIGHT #1 -->
@@ -502,6 +523,14 @@ section{scroll-margin-top:calc(56px + 36px);}
       <div class="cause-card__body">0,73 €/L di accise fisse — alcune in vigore dal 1935, legate a eventi come la guerra d'Abissinia o l'alluvione del Polesine — più IVA al 22% calcolata sull'intero prezzo, tasse incluse. Il risultato: una tassa sulla tassa che amplifica automaticamente ogni rincaro.</div>
     </div>
   </div>
+
+  <!-- GRAFICO 3 — sostituisci con iframe Flourish -->
+  <div class="chart-ph" id="chart-3">
+    <div class="chart-ph__num">03</div>
+    <div class="chart-ph__label">Grafico 3</div>
+    <div class="chart-ph__hint">Embed Flourish da inserire</div>
+  </div>
+
 </section>
 
 <!-- INSIGHT #2 -->
@@ -563,6 +592,14 @@ section{scroll-margin-top:calc(56px + 36px);}
       </div>
     </div>
   </div>
+
+  <!-- GRAFICO 4 — sostituisci con iframe Flourish -->
+  <div class="chart-ph chart-ph--dark" id="chart-4">
+    <div class="chart-ph__num">04</div>
+    <div class="chart-ph__label">Grafico 4</div>
+    <div class="chart-ph__hint">Embed Flourish da inserire</div>
+  </div>
+
 </section>
 
 <!-- INSIGHT #3 -->
@@ -669,6 +706,7 @@ section{scroll-margin-top:calc(56px + 36px);}
   </div>
   <div class="footer__bottom">
     <a href="https://www.openeconomics.eu" target="_blank" rel="noopener" class="footer__bottom-left">www.openeconomics.eu</a>
+    <a href="OE_A&amp;D_NOTA_METODOLOGICA.pdf" target="_blank" rel="noopener" class="footer__bottom-left">Nota metodologica</a>
     <div class="footer__bottom-right">Copyright &copy; OpenEconomics SRL 2026</div>
   </div>
 </footer>
